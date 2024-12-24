@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  user_service:
+    build: .
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+    depends_on:
+      - mongodb
+  user_mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27018:27018"
