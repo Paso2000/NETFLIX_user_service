@@ -20,3 +20,14 @@ def add_user():
         return jsonify(error), 400
     mongo.db.users.insert_one(data)
     return jsonify({"message": "Actor added successfully"}), 201
+
+@users_bp.route("/<int:userId>", methods=["GET"])
+def delete_actor(userId):
+    return jsonify({"error": "Actor not found"}), 404
+@users_bp.route("/<int:userId>", methods=["PUT"])
+def delete_actor(userId):
+    return jsonify({"error": "Actor not found"}), 404
+@users_bp.route("/<int:userId>", methods=["DELETE"])
+def delete_actor(userId):
+    return jsonify({"error": "Actor not found"}), 404
+
