@@ -17,8 +17,7 @@ ASEE Project, content service part.
 - userId : integer
 - profileImage : integer
 - nickname : String
-- recommendedList : array di filmId
-- preferredList : array di filmId
+
 
 ### User service
 - /users
