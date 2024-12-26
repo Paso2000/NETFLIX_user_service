@@ -12,4 +12,4 @@ services:
     image: mongo:latest
     container_name: user_mongodb
     ports:
-      - "27018:27018"
+      - "27018:27017"

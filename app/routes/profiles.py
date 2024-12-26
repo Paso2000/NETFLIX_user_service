@@ -7,7 +7,10 @@ profiles_bp = Blueprint("profiles", __name__)
 
 @profiles_bp.route("/", methods=["GET"])
 def get_users():
-    return jsonify({"message": "fatto la get"}), 200
+    profiles = list(mongo.db.profiles.find())
+    for profile in profiles:
+        profile["_id"] = str(profile["_id"])  # Convert ObjectId to string for serialization
+    return jsonify(profile), 200
 
 @profiles_bp.route("/", methods=["POST"])
 def add_user():
