@@ -36,4 +36,21 @@ ASEE Project, content service part.
     - DELETE
 
 
-## Overview
+## POST Example
+{
+"userId": 1,
+"name": "Mario",
+"surname": "Rossi",
+"password": "ciao",
+"email": "mario@gmail.com",
+"date_of_birth":  "05-03-1998",
+"paymentMethod": "paypal",
+"profiles": "1"
+}
+
+{
+"profileId": 1, 
+"userId": 1
+"profileImage": 0,  
+"nickname": "Default Profile"
+}

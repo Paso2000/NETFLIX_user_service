@@ -12,14 +12,31 @@ def get_users():
         user["_id"] = str(user["_id"])  # Convert ObjectId to string for serialization
     return jsonify(users), 200
 
+#inizializzo l'utente con solo un profilo
+#faccio la post di unn profilo
 @users_bp.route("/", methods=["POST"])
 def add_user():
     data = request.json
+    # Validazione dei dati dell'utente
     valid, error = validate_user(data)
     if not valid:
         return jsonify(error), 400
+    # Creazione del profilo iniziale
+    initial_profile = {
+        "profileId": 1,  # Profilo predefinito
+        "userId": data["userId"],  # Associa il profilo all'utente
+        "profileImage": 0,  # Profilo immagine di default
+        "nickname": "Default Profile"
+    }
+    # Aggiunge il profilo all'utente
+    data["profiles"] = "1"
+    # Inserisce l'utente nel database
     mongo.db.users.insert_one(data)
-    return jsonify({"message": "User added successfully"}), 201
+    # Inserisce il profilo nel database dei profili
+    mongo.db.profiles.insert_one(initial_profile)
+    return jsonify({"message": "User and initial profile added successfully"}), 201
+
+
 
 @users_bp.route("/<int:userId>", methods=["GET"])
 def get_user_by_id(userId):
@@ -79,10 +96,21 @@ def delete_user(userId):
             - 204: No content if deletion is successful.
             - 404: Error message if the user is not found.
     """
-    # noinspection PyPackageRequirements
-    result = mongo.db.users.delete_one({"userId": userId})
-    if result.deleted_count > 0:
-        return "", 204
-    return jsonify({"error": "User not found"}), 404
+    # Verifica che l'utente esista
+    user = mongo.db.users.find_one({"userId": userId})
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Elimina l'utente dalla collezione users
+    user_result = mongo.db.users.delete_one({"userId": userId})
+
+    # Elimina tutti i profili associati dalla collezione profiles
+    profiles_result = mongo.db.profiles.delete_many({"userId": userId})
+
+    return jsonify({
+        "message": "User and associated profiles deleted successfully",
+        "deleted_user_count": user_result.deleted_count,
+        "deleted_profiles_count": profiles_result.deleted_count
+    }), 200
 
 

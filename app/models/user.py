@@ -2,7 +2,7 @@ class User:
 
     def __init__(self, userId: int, name: str, surname: str, password: str, email: str,
                  date_of_birth: str, paymentMethod: str, profiles: str):
-        self.userId : userId
+        self.userId = userId
         self.name = name
         self.surname = surname
         self.password = password
