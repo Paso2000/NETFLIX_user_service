@@ -65,7 +65,7 @@ def add_user():
     initial_profile = {
         "profileId": 1,  # Profilo predefinito
         "userId": data["userId"],  # Associa il profilo all'utente
-        "profileImage": 0,  # Profilo immagine di default
+        "profileImage": "/sfondo1.png",  # Profilo immagine di default
         "nickname": "Default Profile"
     }
     data["profiles"] = "1"
