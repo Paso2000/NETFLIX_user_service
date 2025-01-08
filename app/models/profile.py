@@ -18,7 +18,7 @@ class Profile:
    to_dict()
        Converts the Profile object into a dictionary representation.
    """
-    def __init__(self, profileId: int, userId: int, profileImage: int, nickname: str ):
+    def __init__(self, profileId: int, userId: int, profileImage: str, nickname: str ):
         """
        Constructs all the necessary attributes for the Profile object.
 
@@ -49,7 +49,7 @@ class Profile:
             {
                 "profileId": int,
                 "userId": int,
-                "profileImage": int,
+                "profileImage": str,
                 "nickname": str
             }
         """

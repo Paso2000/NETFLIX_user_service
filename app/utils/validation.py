@@ -84,7 +84,7 @@ def validate_profile(data):
     required_fields = {
         "profileId": int,
         "userId": int,
-        "profileImage": int,
+        "profileImage": str,
         "nickname": str
     }
     # Check for missing fields
