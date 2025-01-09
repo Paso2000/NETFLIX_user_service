@@ -58,10 +58,10 @@ GET /users: Retrieve all users.
 #### Add a Profile
 ```
 {
-"profileId": 1,
+"profileId": 2,
 "userId": 1
-"profileImage": 0,  
-"nickname": "Default Profile"
+"profileImage": "/sfondo2.png",  
+"nickname": "Giamma"
 }
 ```
 
