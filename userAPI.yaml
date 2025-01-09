@@ -1,0 +1,311 @@
+openapi: 3.0.0
+info:
+  title: User and Profile Management API
+  description: API for managing users and their associated profiles.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8081
+    description: Local development server of users and profiles
+
+paths:
+  /users/:
+    get:
+      summary: Retrieve all users
+      responses:
+        '200':
+          description: A list of all users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+              example:
+                - userId: 1
+                  name: "John"
+                  surname: "Doe"
+                  password: "hashed_password"
+                  email: "john.doe@example.com"
+                  date_of_birth: "1980-01-01"
+                  paymentMethod: "Credit Card"
+                  profiles: "1, 2"
+                - userId: 2
+                  name: "Jane"
+                  surname: "Smith"
+                  password: "hashed_password"
+                  email: "jane.smith@example.com"
+                  date_of_birth: "1990-05-15"
+                  paymentMethod: "PayPal"
+                  profiles: "3"
+
+    post:
+      summary: Create a new user with a default profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            example:
+              userId: 3
+              name: "Alice"
+              surname: "Johnson"
+              password: "hashed_password"
+              email: "alice.johnson@example.com"
+              date_of_birth: "1995-10-20"
+              paymentMethod: "Bank Transfer"
+      responses:
+        '201':
+          description: User and default profile created successfully.
+        '400':
+          description: Validation error.
+
+  /users/{userId}:
+    get:
+      summary: Retrieve a user by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                userId: 1
+                name: "John"
+                surname: "Doe"
+                password: "hashed_password"
+                email: "john.doe@example.com"
+                date_of_birth: "1980-01-01"
+                paymentMethod: "Credit Card"
+                profiles: "1, 2"
+        '404':
+          description: User not found.
+
+    put:
+      summary: Update a user by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            example:
+              name: "John"
+              surname: "Doe Updated"
+              email: "john.updated@example.com"
+              paymentMethod: "PayPal"
+      responses:
+        '200':
+          description: User updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found.
+
+    delete:
+      summary: Delete a user and their profiles
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User and associated profiles deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  deleted_user_count:
+                    type: integer
+                  deleted_profiles_count:
+                    type: integer
+        '404':
+          description: User not found.
+
+  /users/{userId}/profiles:
+    get:
+      summary: Retrieve profiles associated with a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Profiles retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        '404':
+          description: User not found.
+
+    post:
+      summary: Add a new profile to a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+            example:
+              profileId: 4
+              userId: 1
+              profileImage: "/sfondo2.png"
+              nickname: "Kid Profile"
+      responses:
+        '201':
+          description: Profile added successfully and user updated.
+        '404':
+          description: User not found.
+        '400':
+          description: Validation error.
+
+  /users/{userId}/profiles/{profileId}:
+    get:
+      summary: Retrieve a profile by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Profile details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '404':
+          description: Profile or user not found.
+
+    put:
+      summary: Update a profile by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+            example:
+              nickname: "Updated Profile"
+              profileImage: "/sfondo3.png"
+      responses:
+        '200':
+          description: Profile updated successfully.
+        '404':
+          description: Profile not found.
+
+    delete:
+      summary: Delete a profile by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Profile deleted successfully.
+        '404':
+          description: Profile or user not found.
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+        name:
+          type: string
+        surname:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        paymentMethod:
+          type: string
+        profiles:
+          type: string
+      example:
+        userId: 1
+        name: "John"
+        surname: "Doe"
+        password: "hashed_password"
+        email: "john.doe@example.com"
+        date_of_birth: "1980-01-01"
+        paymentMethod: "Credit Card"
+        profiles: "1, 2"
+
+    Profile:
+      type: object
+      properties:
+        profileId:
+          type: integer
+        userId:
+          type: integer
+        profileImage:
+          type: string
+        nickname:
+          type: string
+      example:
+        profileId: 1
+        userId: 1
+        profileImage: "/sfondo1.png"
+        nickname: "Default Profile"

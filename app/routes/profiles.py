@@ -5,6 +5,7 @@ from utils.validation import validate_profile
 """
 Blueprint for profile-related API routes.
 
+
 Endpoints
 ---------
 GET /users/<userId>/profiles:

@@ -5,6 +5,7 @@ from utils.validation import validate_user
 """
 Blueprint for user-related API routes.
 
+
 Endpoints
 ---------
 GET /users:
