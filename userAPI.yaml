@@ -283,6 +283,7 @@ components:
           type: string
         profiles:
           type: string
+          description: "profileId List from the file profile Component"
       example:
         userId: 1
         name: "John"
