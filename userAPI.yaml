@@ -267,7 +267,7 @@ components:
       type: object
       properties:
         userId:
-          type: integer
+            $ref: '#/components/schemas/UserId'
         name:
           type: string
         surname:
@@ -299,7 +299,7 @@ components:
         profileId:
           type: integer
         userId:
-          type: integer
+            $ref: '#/components/schemas/UserId'
         profileImage:
           type: string
         nickname:
@@ -309,3 +309,8 @@ components:
         userId: 1
         profileImage: "/sfondo1.png"
         nickname: "Default Profile"
+
+    UserId:
+     type: integer
+     description: Unique identifier for the user.
+     example: 1
