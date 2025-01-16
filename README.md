@@ -19,7 +19,7 @@ routes and validations.
 
 ## API Endpoints
 ### Users
-GET /users: Retrieve all users.
+```GET /users```: Retrieve all users.
 
 ```POST /users```: Create a new user with a default profile.
 
